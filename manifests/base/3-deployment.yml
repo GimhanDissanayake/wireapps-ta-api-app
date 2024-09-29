@@ -15,15 +15,15 @@ spec:
       containers:
         - name: api-app
           image: DOCKER_IMAGE
-          volumeMounts:
-            - name: api-app-secrets
-              mountPath: "/mnt/secrets-store"
-              readOnly: true
+          # volumeMounts:
+          #   - name: api-app-secrets
+          #     mountPath: "/mnt/secrets-store"
+          #     readOnly: true
           envFrom:
           - configMapRef:
               name: api-app
-          - secretRef:
-              name: api-app-secrets
+          # - secretRef:
+          #     name: api-app-secrets
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
@@ -51,10 +51,10 @@ spec:
             initialDelaySeconds: 60
             failureThreshold: 10
             periodSeconds: 10
-      volumes:
-        - name: api-app-secrets
-          csi:
-            driver: secrets-store.csi.k8s.io
-            readOnly: true
-            volumeAttributes:
-              secretProviderClass: "api-app-secrets"
+      # volumes:
+      #   - name: api-app-secrets
+      #     csi:
+      #       driver: secrets-store.csi.k8s.io
+      #       readOnly: true
+      #       volumeAttributes:
+      #         secretProviderClass: "api-app-secrets"
