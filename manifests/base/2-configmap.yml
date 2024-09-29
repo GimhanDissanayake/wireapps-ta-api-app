@@ -4,5 +4,5 @@ metadata:
   name: api-app
 data:
   PORT: "8080"
-  DB: "postgres://dbadmin:dbadmintemp@10.169.0.3/api-app"
+  DB: "postgres://dbadmin:dbadmintemp@10.169.0.3/api_db"
   
