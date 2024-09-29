@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-app
+spec:
+  selector:
+    matchLabels:
+      app: api-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: api-app
+    spec:
+      containers:
+        - name: api-app
+          image: DOCKER_IMAGE
+          # volumeMounts:
+          #   - name: api-app-secrets
+          #     mountPath: "/mnt/secrets-store"
+          #     readOnly: true
+          envFrom:
+          - configMapRef:
+              name: api-app
+          # - secretRef:
+          #     name: api-app-secrets
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: "50m"
+              memory: "512Mi"
+            requests:
+              cpu: 10m
+              memory: "256Mi"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            periodSeconds: 10
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 60
+            failureThreshold: 10
+            periodSeconds: 10
+      # volumes:
+      #   - name: api-app-secrets
+      #     csi:
+      #       driver: secrets-store.csi.k8s.io
+      #       readOnly: true
+      #       volumeAttributes:
+      #         secretProviderClass: "api-app-secrets"

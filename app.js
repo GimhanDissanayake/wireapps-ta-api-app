@@ -44,6 +44,13 @@ app.get('/', function (req, res) {
   });
 });
 
+// health check
+app.get('/health', function(req, res, next) {
+  return res.json({
+    "message": "Wireapps TA api app health"
+  });
+});
+
 // Routes
 app.get('/api/status', function (req, res) {
   pool.connect(function (err, client, done) {
@@ -96,6 +103,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;
