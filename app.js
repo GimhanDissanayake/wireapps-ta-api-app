@@ -97,5 +97,11 @@ app.use(function(err, req, res, next) {
   });
 });
 
+// health check
+router.get('/health', function(req, res, next) {
+  return res.json({
+    "message": "Wireapps TA api app health"
+  });
+});
 
 module.exports = app;
